@@ -3,7 +3,7 @@ box: golang
 dev:
   steps:
     - setup-go-workspace:
-        package-dir: github.c/cloudnativego/hell
+        package-dir: github.com/atjapan2015/gostudy/firstwercker
     - script:
         name: env
         code: env
@@ -21,7 +21,7 @@ dev:
 build:
   steps:
     - setup-go-workspace:
-        package-dir: github.com/cloudnativego/hello
+        package-dir: github.com/atjapan2015/gostudy/firstwercker
 
     - script:
         name: env
@@ -44,34 +44,39 @@ build:
           go build
 
     # Test the project
-    - script:
-        name: go test
-        code: |
-          go test -v $(glide novendor)
-    
+#    - script:
+#        name: go test
+#        code: |
+#          go test -v $(glide novendor)
+
     - script:
         name: copy files to wercker output
         code: |
-          cp -R ./ $(WERCKER_OUTPUT_DIR)
+          cp -R ./ ${WERCKER_OUTPUT_DIR}
+    
+#    - script:
+#        name: copy files to wercker output
+#        code: |
+#          cp -R ./ $(WERCKER_OUTPUT_DIR)
 
 deploy:
   steps:
     - internal/docker-push:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
-        cmd: /pipeline/source/hello
+        cmd: /pipeline/source/gostudy/firstwercker
         port: "8080"
         tag: latest
         repository: atjapan2015/book-hello
         registry: https://registry.hub.docker.com
 
-    - cng/cf-deploy:
-        api: $API
-        user: $USER
-        password: $PASSWORD
-        org: $ORG
-        space: $SPACE
-        appname: wercker-step-hello
-        docker_image: cloudnativego/book-hello
-        
+#    - cng/cf-deploy:
+#        api: $API
+#        user: $USER
+#        password: $PASSWORD
+#        org: $ORG
+#        space: $SPACE
+#        appname: wercker-step-hello
+#        docker_image: atjapan2015/book-hello
+       
 
